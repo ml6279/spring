@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 通过这个配置文件完成mybatis与数据库的连接 -->
+<configuration>
+    <!-- 引入 database.properties 文件-->
+    <properties resource="database.properties"/>
+
+    <!--在内部引用-->
+    <!--<properties >
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/mybatis"/>
+        <property name="user" value="root"/>
+        <property name="password" value="rootroot"/>
+    </properties>-->
+
+    <settings> <!--setting配置项里的参数配置会影响mybatis整个运行过程-->
+        <!-- 配置log4j输出日志信息 -->
+        <!--<setting name="logImpl" value="LOG4J" />-->
+        <!--自动驼峰对照 表列名为b_id 实体属性名为bId-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/> <!--默认是关闭的-->
+        <!---开启或者关闭懒加载 延时加载 默认的时候mybatis是关闭赖加载的-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--开启缓存，默认就是开启 针对2级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+
+    </settings>
+
+    <!--为实体对象起别名-->
+    <!--<typeAliases>
+        <typeAlias alias="NewsUser" type="market.entity.NewsUser"/>
+        &lt;!&ndash;为这个包下面所有实体类起别名，别名是每个类的类名&ndash;&gt;
+        <package name="market.entity"/>
+    </typeAliases>-->
+
+    <!-- 配置分页插件 (只在mybatis中有用)-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--helperDialect 方言:就表示此插件针对哪个数据库进行优化处理
+            这个方言可以不配置,因为此插件可以依据你的 url 的信息来推断出
+            你用的数据库是哪一个
+            -->
+            <property name="helperDialect" value="mysql"/>
+            <!--分页合理化参数-->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+    <!--环境配置-->
+    <!--<environments default="development">
+        <environment id="development">
+            &lt;!&ndash;配置事务管理，采用JDBC的事务管理  &ndash;&gt; &lt;!&ndash;事务控制类型&ndash;&gt;
+            <transactionManager type="JDBC"></transactionManager>
+            &lt;!&ndash; POOLED:mybatis自带的数据源，JNDI:基于tomcat的数据源 &ndash;&gt;
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+                &lt;!&ndash;数据库连接池，启动的时候创建8个Connection连接&ndash;&gt;
+                <property name="poolMaximumActiveConnections" value="8"/>
+
+            </dataSource>
+        </environment>
+
+    </environments>-->
+    <!-- 将mapper文件加入到配置文件中 -->
+    <mappers>
+        <!--resource:告诉batis以什么方法查找这些mapper配置文件,market/UserMapper1.xml:指出mapper的配置在工程的哪个目录下-->
+        <!--注意:如果你的包名是com.xxx,resource="com/xxx"-->
+        <!--如果所有的mapper.xml文件都放在同一包下,可以写成:resource="com/xxx/*.xml"-->
+
+        <mapper resource="mapper/UserMapper.xml"/>
+
+        <!--使用注解的方式配置sql语法-->
+        <!--<mapper class="market.dao.AnnotationMapper"></mapper>-->
+        <!-- 通过包的方式去引入
+        <package name="market.dao"/>
+        -->
+
+    </mappers>
+</configuration>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    <bean id="child" class="ioc.show.ChildBean">
+        <constructor-arg ref="father"/>
+    </bean>
+    <bean id="father" class="ioc.show.FatherBean">
+        <property name="age" value="50"></property>
+    </bean>
+</beans>

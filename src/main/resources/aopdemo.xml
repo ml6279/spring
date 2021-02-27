@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+    <bean id="userService" class="aopdemo.service.UserService"></bean>
+    <bean id="serviceLog" class="aopdemo.aop.ServiceLogger"></bean>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <context:component-scan base-package="aopdemo.aopannotation"/>
+
+    <aop:config>
+        <!--切点-->
+        <aop:pointcut id="logPonitCut" expression="execution(public * aopdemo.service.*.*(..))"/>
+        <aop:aspect ref="serviceLog">
+            <!--<aop:before method="before" pointcut-ref="logPonitCut"></aop:before>
+            <aop:after method="after" pointcut-ref="logPonitCut"></aop:after>-->
+            <!--<aop:after-returning method="afterReturn" pointcut-ref="logPonitCut" returning="ret"/>-->
+            <!--<aop:after-throwing method="afterThrow" pointcut-ref="logPonitCut" throwing="ex"/>-->
+            <!--<aop:around method="around" pointcut-ref="logPonitCut"/>-->
+        </aop:aspect>
+    </aop:config>
+</beans>
